@@ -163,7 +163,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       Allows the user to specify the root if '.' is provided.
       rsync is used to prevent file duplication. */
     await execute(
-      `rsync -q -av --checksum --progress ${action.folderPath}/. ${
+      `rsync ${action.silent ? '-q' : ''} -av --checksum --progress ${action.folderPath}/. ${
         action.targetFolder
           ? `${temporaryDeploymentDirectory}/${action.targetFolder}`
           : temporaryDeploymentDirectory
@@ -220,7 +220,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           await execute(
             checkGitStatus,
             `${action.workspace}/${temporaryDeploymentDirectory}`,
-            true // This output is always silenced due to the large output it creates.
+            action.silent,
           )
         ).stdout
       )
