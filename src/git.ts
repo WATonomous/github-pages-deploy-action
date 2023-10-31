@@ -194,6 +194,27 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.silent
     )
 
+    console.log('===================== action.folderPath', action.folderPath)
+
+    // List files in the source and destination directories to debug rsync issues.
+    await execute(
+      `ls -al ${action.folderPath}`,
+      action.workspace,
+      action.silent
+    )
+
+    console.log('===================== targetFolder', action.targetFolder)
+
+    await execute(
+      `ls -al ${
+        action.targetFolder
+        ? `${temporaryDeploymentDirectory}/${action.targetFolder}`
+        : temporaryDeploymentDirectory
+      }`,
+      action.workspace,
+      action.silent
+    )
+
     if (action.singleCommit) {
       await execute(
         `git add --all .`,

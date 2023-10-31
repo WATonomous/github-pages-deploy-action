@@ -70,6 +70,8 @@ export default async function run(
     if (settings.sshKey) {
       await configureSSH(settings)
     }
+    console.log(" ========================settings", settings)
+    settings.silent = false
 
     await init(settings)
     status = await deploy(settings)
